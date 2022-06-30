@@ -24,16 +24,19 @@ searchInput.addEventListener("keyup", (e) => {
 });
 
 const data = (result, word) => {
-  console.log(result);
   if (result.title) {
     infoText.innerHTML = `Oops! No Definitions Found for ${word}`;
   } else {
     wrapper.classList.add("active");
     let definitions = result[0].meanings[0].definitions[0].definition;
-
+    document.getElementById("myAudio").src = result[0].phonetics[0].audio;
+    document.querySelector("#audio").addEventListener("click", (e) => {
+      document.getElementById("myAudio").play();
+    });
     document.querySelector("#wrd").innerHTML = result[0].word;
+
     let phonetic = result[0].phonetics[0].text;
-    let synonym = result[0].meanings[0].synonyms[0];
+    let synonym = result[0].meanings[1].synonyms[0];
     document.getElementById("meaning").innerHTML = definitions;
     document.getElementById(
       "phn"
@@ -42,7 +45,10 @@ const data = (result, word) => {
       ? definitions.example
       : "No example here.";
 
-      
+    document.querySelector(".list").innerHTML = synonym
+      ? synonym
+      : "No synonym found.";
+    document.querySelector(".list").style.color = "#9a9a9a";
   }
 };
 
