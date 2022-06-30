@@ -29,14 +29,15 @@ const data = (result, word) => {
   } else {
     wrapper.classList.add("active");
     let definitions = result[0].meanings[0].definitions[0].definition;
-    document.getElementById("myAudio").src = result[0].phonetics[0].audio;
+    audio = result[0].phonetics[0].audio;
+    document.getElementById("myAudio").src = audio ? audio : "";
     document.querySelector("#audio").addEventListener("click", (e) => {
       document.getElementById("myAudio").play();
     });
     document.querySelector("#wrd").innerHTML = result[0].word;
 
     let phonetic = result[0].phonetics[0].text;
-    let synonym = result[0].meanings[1].synonyms[0];
+    let synonym = result[0].meanings[1];
     document.getElementById("meaning").innerHTML = definitions;
     document.getElementById(
       "phn"
@@ -46,7 +47,9 @@ const data = (result, word) => {
       : "No example here.";
 
     document.querySelector(".list").innerHTML = synonym
-      ? synonym
+      ? synonym.synonyms[0]
+        ? synonym.synonyms[0]
+        : "No synonym found."
       : "No synonym found.";
     document.querySelector(".list").style.color = "#9a9a9a";
   }
